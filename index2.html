@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="portfolioApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhanush Kavin - Web Developer Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --card-background: #ffffff;
+            --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            cursor: none;
+            background-color: var(--background-color);
+        }
+
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: 0.1s;
+            z-index: 9999;
+        }
+
+        .cursor-follower {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: 0.15s;
+            z-index: 9999;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        #bgVideo {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .navbar {
+            transition: all var(--transition-speed) ease;
+            padding: 1rem 0;
+        }
+
+        .navbar-scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: all var(--transition-speed) ease;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 80%);
+            transform: scale(0);
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover::before {
+            transform: scale(1);
+        }
+
+        .btn-primary:hover {
+            background-color: darken(var(--primary-color), 10%);
+            border-color: darken(var(--primary-color), 10%);
+            transform: translateY(-2px);
+        }
+
+        .card {
+            background-color: var(--card-background);
+            border: none;
+            border-radius: 15px;
+            transition: all var(--transition-speed) ease;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: var(--card-shadow);
+        }
+
+        .skill-item {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .skill-item:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+
+        .skill-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .skill-item:hover .skill-logo {
+            transform: scale(1.1);
+        }
+
+        .social-icons a {
+            font-size: 1.5rem;
+            transition: all var(--transition-speed) ease;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .social-icons a:hover {
+            color: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .mouse {
+            width: 30px;
+            height: 50px;
+            border: 2px solid #fff;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 10px;
+        }
+
+        .wheel {
+            width: 4px;
+            height: 8px;
+            background-color: #fff;
+            border-radius: 2px;
+            animation: scroll 1.5s infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+            100% { transform: translateY(0); }
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .project-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 20px 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .project-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .project-card {
+            display: inline-block;
+            width: 300px;
+            height: 400px;
+            margin-right: 20px;
+            vertical-align: top;
+            white-space: normal;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-title {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover .project-title {
+            transform: translateY(0);
+        }
+
+        .project-links a {
+            color: #fff;
+            background: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-links a:hover {
+            background: var(--accent-color);
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 50px;
+            height: 4px;
+            background: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .section-title:hover::after {
+            width: 100%;
+        }
+
+        .glitch {
+            position: relative;
+            color: #fff;
+            font-size: 4em;
+            letter-spacing: 0.5em;
+            animation: glitch-skew 1s infinite linear alternate-reverse;
+        }
+        .glitch::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            left: 2px;
+            text-shadow: -2px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            left: -2px;
+            text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% {
+                clip: rect(42px, 9999px, 44px, 0);
+                transform: skew(0.65deg);
+            }
+            5% {
+                clip: rect(12px, 9999px, 59px, 0);
+                transform: skew(0.23deg);
+            }
+            10% {
+                clip: rect(48px, 9999px, 29px, 0);
+                transform: skew(0.45deg);
+            }
+            15% {
+                clip: rect(42px, 9999px, 73px, 0);
+                transform: skew(0.5deg);
+            }
+            20% {
+                clip: rect(63px, 9999px, 27px, 0);
+                transform: skew(0.1deg);
+            }
+            25% {
+                clip: rect(34px, 9999px, 55px, 0);
+                transform: skew(0.37deg);
+            }
+            30% {
+                clip: rect(86px, 9999px, 73px, 0);
+                transform: skew(0.68deg);
+            }
+            35% {
+                clip: rect(20px, 9999px, 20px, 0);
+                transform: skew(0.75deg);
+            }
+            40% {
+                clip: rect(26px, 9999px, 60px, 0);
+                transform: skew(0.5deg);
+            }
+            45% {
+                clip: rect(25px, 9999px, 66px, 0);
+                transform: skew(0.65deg);
+            }
+            50% {
+                clip: rect(57px, 9999px, 98px, 0);
+                transform: skew(0.45deg);
+            }
+            55% {
+                clip: rect(5px, 9999px, 46px, 0);
+                transform: skew(0.04deg);
+            }
+            60% {
+                clip: rect(82px, 9999px, 31px, 0);
+                transform: skew(0.74deg);
+            }
+            65% {
+                clip: rect(54px, 9999px, 27px, 0);
+                transform: skew(0.46deg);
+            }
+            70% {
+                clip: rect(28px, 9999px, 99px, 0);
+                transform: skew(0.72deg);
+            }
+            75% {
+                clip: rect(45px, 9999px, 69px, 0);
+                transform: skew(0.15deg);
+            }
+            80% {
+                clip: rect(23px, 9999px, 85px, 0);
+                transform: skew(0.43deg);
+            }
+            85% {
+                clip: rect(54px, 9999px, 84px, 0);
+                transform: skew(0.63deg);
+            }
+            90% {
+                clip: rect(45px, 9999px, 47px, 0);
+                transform: skew(0.22deg);
+            }
+            95% {
+                clip: rect(37px, 9999px, 20px, 0);
+                transform: skew(0.34deg);
+            }
+            100% {
+                clip: rect(4px, 9999px, 91px, 0);
+                transform: skew(0.6deg);
+            }
+        }
+
+        @keyframes glitch-anim2 {
+            0% {
+                clip: rect(65px, 9999px, 100px, 0);
+                transform: skew(0.27deg);
+            }
+            5% {
+                clip: rect(93px, 9999px, 35px, 0);
+                transform: skew(0.33deg);
+            }
+            10% {
+                clip: rect(86px, 9999px, 73px, 0);
+                transform: skew(0.68deg);
+            }
+            15% {
+                clip: rect(20px, 9999px, 20px, 0);
+                transform: skew(0.75deg);
+            }
+            20% {
+                clip: rect(26px, 9999px, 60px, 0);
+                transform: skew(0.5deg);
+            }
+            25% {
+                clip: rect(25px, 9999px, 66px, 0);
+                transform: skew(0.65deg);
+            }
+            30% {
+                clip: rect(57px, 9999px, 98px, 0);
+                transform: skew(0.45deg);
+            }
+            35% {
+                clip: rect(5px, 9999px, 46px, 0);
+                transform: skew(0.04deg);
+            }
+            40% {
+                clip: rect(82px, 9999px, 31px, 0);
+                transform: skew(0.74deg);
+            }
+            45% {
+                clip: rect(54px, 9999px, 27px, 0);
+                transform: skew(0.46deg);
+            }
+            50% {
+                clip: rect(28px, 9999px, 99px, 0);
+                transform: skew(0.72deg);
+            }
+            55% {
+                clip: rect(45px, 9999px, 69px, 0);
+                transform: skew(0.15deg);
+            }
+            60% {
+                clip: rect(23px, 9999px, 85px, 0);
+                transform: skew(0.43deg);
+            }
+            65% {
+                clip: rect(54px, 9999px, 84px, 0);
+                transform: skew(0.63deg);
+            }
+            70% {
+                clip: rect(45px, 9999px, 47px, 0);
+                transform: skew(0.22deg);
+            }
+            75% {
+                clip: rect(37px, 9999px, 20px, 0);
+                transform: skew(0.34deg);
+            }
+            80% {
+                clip: rect(4px, 9999px, 91px, 0);
+                transform: skew(0.6deg);
+            }
+            85% {
+                clip: rect(24px, 9999px, 91px, 0);
+                transform: skew(0.89deg);
+            }
+            90% {
+                clip: rect(66px, 9999px, 68px, 0);
+                transform: skew(0.4deg);
+            }
+            95% {
+                clip: rect(95px, 9999px, 43px, 0);
+                transform: skew(0.37deg);
+            }
+            100% {
+                clip: rect(91px, 9999px, 22px, 0);
+                transform: skew(0.6deg);
+            }
+        }
+
+        @keyframes glitch-skew {
+            0% {
+                transform: skew(-2deg);
+            }
+            10% {
+                transform: skew(-1deg);
+            }
+            20% {
+                transform: skew(0deg);
+            }
+            30% {
+                transform: skew(1deg);
+            }
+            40% {
+                transform: skew(-1deg);
+            }
+            50% {
+                transform: skew(2deg);
+            }
+            60% {
+                transform: skew(1deg);
+            }
+            70% {
+                transform: skew(0deg);
+            }
+            80% {
+                transform: skew(-1deg);
+            }
+            90% {
+                transform: skew(2deg);
+            }
+            100% {
+                transform: skew(-2deg);
+            }
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid var(--primary-color);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary-color); }
+        }
+
+        .animated-button {
+            position: relative;
+            display: inline-block;
+            padding: 12px 24px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 18px;
+            overflow: hidden;
+            transition: 0.5s;
+            letter-spacing: 4px;
+            -webkit-box-reflect: below 1px linear-gradient(transparent, #0005);
+        }
+
+        .animated-button:hover {
+            background: var(--primary-color);
+            color: #050801;
+            box-shadow: 0 0 5px var(--primary-color),
+                        0 0 25px var(--primary-color),
+                        0 0 50px var(--primary-color),
+                        0 0 200px var(--primary-color);
+        }
+
+        .animated-button span {
+            position: absolute;
+            display: block;
+        }
+
+        .animated-button span:nth-child(1) {
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color));
+            animation: btn-anim1 1s linear infinite;
+        }
+
+        @keyframes btn-anim1 {
+            0% {
+                left: -100%;
+            }
+            50%,100% {
+                left: 100%;
+            }
+        }
+
+        .animated-button span:nth-child(2) {
+            top: -100%;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, var(--primary-color));
+            animation: btn-anim2 1s linear infinite;
+            animation-delay: .25s
+        }
+
+        @keyframes btn-anim2 {
+            0% {
+                top: -100%;
+            }
+            50%,100% {
+                top: 100%;
+            }
+        }
+
+        .animated-button span:nth-child(3) {
+            bottom: 0;
+            right: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(270deg, transparent, var(--primary-color));
+            animation: btn-anim3 1s linear infinite;
+            animation-delay: .5s
+        }
+
+        @keyframes btn-anim3 {
+            0% {
+                right: -100%;
+            }
+            50%,100% {
+                right: 100%;
+            }
+        }
+
+        .animated-button span:nth-child(4) {
+            bottom: -100%;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(360deg, transparent, var(--primary-color));
+            animation: btn-anim4 1s linear infinite;
+            animation-delay: .75s
+        }
+
+        @keyframes btn-anim4 {
+            0% {
+                bottom: -100%;
+            }
+            50%,100% {
+                bottom: 100%;
+            }
+        }
+
+        .parallax-container {
+            position: relative;
+            overflow: hidden;
+            height: 400px;
+        }
+
+        .parallax-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translateZ(0);
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding-top: 60px;
+            }
+
+            .card {
+                margin-bottom: 1rem;
+            }
+
+            .skill-logo {
+                width: 32px;
+                height: 32px;
+            }
+
+            .glitch {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body ng-controller="PortfolioController as ctrl">
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    <div id="particles-js"></div>
+
+    <header class="fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    Dhanush Kavin
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item" ng-repeat="item in ctrl.navItems">
+                            <a class="nav-link" href="#{{item.link}}" ng-class="{'active': ctrl.isActive(item.link)}">{{item.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero d-flex align-items-center">
+            <video autoplay muted loop id="bgVideo">
+                <source src="https://cdn.pixabay.com/video/2024/03/31/206294_tiny.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="container hero-content">
+                <div class="row">
+                    <div class="col-lg-6" data-aos="fade-right">
+                        <h1 class="display-4 fw-bold mb-4 glitch" data-text="Welcome to My Portfolio">Welcome to My Portfolio</h1>
+                        <p class="lead mb-4 typewriter">I'm Dhanush Kavin, a Full Stack Web Developer passionate about creating amazing digital experiences.</p>
+                        <a href="#projects" class="btn btn-primary btn-lg animated-button">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            View My Work
+                        </a>
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <div class="hero-image-container">
+                            <img src="https://i.pinimg.com/736x/68/10/b9/6810b93cad45432e58ae1f8ad3762641.jpg" alt="Hero Image" class="img-fluid rounded-circle hero-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-down">
+                <a href="#about" class="mouse-wrapper">
+                    <span class="mouse">
+                        <span class="wheel"></span>
+                    </span>
+                </a>
+            </div>
+        </section>
+
+        <section id="about" class="py-5">
+            <div class="container">
+                <h2 class="text-center section-title" data-aos="fade-up">About Me</h2>
+                <div class="row">
+                    <div class="col-lg-6" data-aos="fade-right">
+                        <div class="parallax-container">
+                            <img src="https://i.pinimg.com/736x/54/80/62/548062cfdcef7e5bb8742754f4440173.jpg" alt="About Image" class="img-fluid rounded parallax-image">
+                        </div>
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <p class="lead">
+                            I'm a passionate full-stack web developer with expertise in both frontend and backend technologies.
+                            My goal is to create robust, user-friendly web applications that make a positive impact.
+                        </p>
+                        <p class="lead">
+                            When I'm not coding, you can find me exploring new technologies, contributing to open-source projects,
+                            or sharing my knowledge through blog posts and tutorials.
+                        </p>
+                        <a href="Dhanush kavin G.pdf" download class="btn btn-primary mt-3 animated-button">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <i class="fas fa-download me-2"></i>Download CV
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center section-title" data-aos="fade-up">My Skills</h2>
+                <div class="row">
+                    <div class="col-md-4 mb-4" ng-repeat="skill in ctrl.skills" data-aos="flip-left" data-aos-delay="{{$index * 100}}">
+                        <div class="card h-100 shadow-sm skill-card">
+                            <div class="card-body">
+                                <h3 class="card-title">{{skill.category}}</h3>
+                                <ul class="list-unstyled">
+                                    <li ng-repeat="item in skill.items" class="mb-3">
+                                        <div class="d-flex align-items-center skill-item" ng-click="ctrl.showLanguageDetails(item)">
+                                            <img ng-src="{{item.logo}}" alt="{{item.name}} logo" class="skill-logo me-3">
+                                            <span>{{item.name}}</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="language-details" class="py-5" ng-show="ctrl.isLanguageDetailsVisible">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm" data-aos="zoom-in">
+                            <div class="card-body">
+                                <button type="button" class="btn-close float-end" aria-label="Close" ng-click="ctrl.hideLanguageDetails()"></button>
+                                <h3 class="card-title">{{ctrl.selectedLanguage.name}}</h3>
+                                <img ng-src="{{ctrl.selectedLanguage.logo}}" alt="{{ctrl.selectedLanguage.name}} logo" class="language-logo mb-3">
+                                <p class="card-text">{{ctrl.selectedLanguage.description}}</p>
+                                <h4>Purpose in Web Development:</h4>
+                                <ul>
+                                    <li ng-repeat="purpose in ctrl.selectedLanguage.purposes">{{purpose}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-5">
+            <div class="container">
+                <h2 class="text-center section-title" data-aos="fade-up">My Projects</h2>
+                <div class="project-container">
+                    <div class="project-card" ng-repeat="project in ctrl.projects" data-aos="zoom-in" data-aos-delay="{{$index * 100}}">
+                        <img ng-src="{{project.image}}" alt="{{project.name}}">
+                        <div class="project-overlay">
+                            <h3 class="project-title">{{project.name}}</h3>
+                            <p class="project-description">{{project.shortDescription}}</p>
+                            <div class="project-links">
+                                <a ng-href="{{project.liveDemo}}" target="_blank" class="btn btn-sm animated-button">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    Live Demo
+                                </a>
+                                <a ng-href="{{project.github}}" target="_blank" class="btn btn-sm animated-button">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    GitHub
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-5 experience-bg">
+            <div class="container">
+                <h2 class="text-center section-title" data-aos="fade-up">Experience</h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm" data-aos="fade-up">
+                            <div class="card-body">
+                                <h3 class="card-title">Appin Technology</h3>
+                                <h6 class="card-subtitle mb-2 text-muted">Internship - 6 months</h6>
+                                <p class="card-text">
+                                    Gained hands-on experience in full-stack development, working on various projects and improving my skills in both frontend and backend technologies.
+                                    Collaborated with senior developers to implement new features and optimize existing codebase.
+                                </p>
+                                <ul>
+                                    <li>Developed responsive web applications using HTML5, CSS3, and JavaScript</li>
+                                    <li>Implemented RESTful APIs using Node.js and Express</li>
+                                    <li>Worked with databases such as MongoDB and MySQL</li>
+                                    <li>Participated in code reviews and agile development processes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="certificates" class="py-5 certificate-bg">
+            <div class="container">
+                <h2 class="text-center section-title" data-aos="fade-up">Certificates</h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm" data-aos="fade-up">
+                            <div class="card-body">
+                                <h3 class="card-title">Java Full Stack Developer</h3>
+                                <h6 class="card-subtitle mb-2 text-muted">Issued by Appin Technology</h6>
+                                <p class="card-text">
+                                    Completed comprehensive training in Java full-stack development, covering both frontend and backend technologies.
+                                    The course included hands-on projects and in-depth study of Java, Spring Framework, HTML, CSS, JavaScript, and database management.
+                                </p>
+                                <a href="path/to/your/certificate.pdf" download class="btn btn-primary mt-3 animated-button">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <i class="fas fa-download me-2"></i>Download Certificate
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center section-title" data-aos="fade-up">Contact Me</h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <form ng-submit="ctrl.submitForm()" name="contactForm" novalidate class="contact-form">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" ng-model="ctrl.formData.name" required>
+                                <div ng-show="contactForm.name.$dirty && contactForm.name.$invalid" class="text-danger">
+                                    <small ng-show="contactForm.name.$error.required">Name is required.</small>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" ng-model="ctrl.formData.email" required>
+                                <div ng-show="contactForm.email.$dirty && contactForm.email.$invalid" class="text-danger">
+                                    <small ng-show="contactForm.email.$error.required">Email is required.</small>
+                                    <small ng-show="contactForm.email.$error.email">Invalid email format.</small>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="5" ng-model="ctrl.formData.message" required></textarea>
+                                <div ng-show="contactForm.message.$dirty && contactForm.message.$invalid" class="text-danger">
+                                    <small ng-show="contactForm.message.$error.required">Message is required.</small>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary animated-button" ng-disabled="contactForm.$invalid">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer-widget">
+                        <h3>About Me</h3>
+                        <p>I'm a passionate full-stack web developer dedicated to creating amazing digital experiences. With expertise in both frontend and backend technologies, I strive to build robust and user-friendly applications.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer-widget">
+                        <h3>My Services</h3>
+                        <ul class="footer-services">
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Web Development</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Mobile App Development</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> UI/UX Design</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> Database Management</a></li>
+                            <li><a href="#"><i class="fas fa-chevron-right"></i> API Integration</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer-widget">
+                        <h3>Quick Links</h3>
+                        <ul class="footer-quick-links">
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#skills">Skills</a></li>
+                            <li><a href="#projects">Projects</a></li>
+                            <li><a href="#experience">Experience</a></li>
+                            <li><a href="#certificates">Certificates</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer-widget">
+                        <h3>Contact Info</h3>
+                        <ul class="footer-contact-info">
+                            <li><i class="fas fa-map-marker-alt"></i> 123 Web Dev Street, Coding City, 12345</li>
+                            <li><i class="fas fa-phone"></i> <a href="tel:+1234567890">+1 (234) 567-890</a></li>
+                            <li><i class="fas fa-envelope"></i> <a href="mailto:dhanushkavin@example.com">dhanushkavin@example.com</a></li>
+                            <li><i class="fas fa-globe"></i> <a href="https://www.dhanushkavin.com">www.dhanushkavin.com</a></li>
+                        </ul>
+                        <ul class="footer-social">
+                            <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright-area">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6">
+                        <p>&copy; 2023 Dhanush Kavin. All Rights Reserved.</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <ul>
+                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+    angular.module('portfolioApp', [])
+    .controller('PortfolioController', function($scope, $timeout, $window) {
+        var ctrl = this;
+
+        ctrl.navItems = [
+            { name: 'Home', link: 'home' },
+            { name: 'About', link: 'about' },
+            { name: 'Skills', link: 'skills' },
+            { name: 'Projects', link: 'projects' },
+            { name: 'Experience', link: 'experience' },
+            { name: 'Certificates', link: 'certificates' },
+            { name: 'Contact', link: 'contact' }
+        ];
+
+        ctrl.skills = [
+            {
+                category: 'Frontend',
+                items: [
+                    {
+                        name: 'HTML5',
+                        logo: 'https://cdn.worldvectorlogo.com/logos/html-1.svg',
+                        description: 'HTML5 is the latest version of Hypertext Markup Language, the code that describes web pages.',
+                        purposes: [
+                            'Structure content on the web',
+                            'Support multimedia without plugins',
+                            'Provide better semantics for document structure'
+                        ]
+                    },
+                    {
+                        name: 'CSS3',
+                        logo: 'https://cdn.worldvectorlogo.com/logos/css-3.svg',
+                        description: 'CSS3 is the latest evolution of the Cascading Style Sheets language.',
+                        purposes: [
+                            'Style and layout web pages',
+                            'Create responsive designs',
+                            'Implement animations and transitions'
+                        ]
+                    },
+                    {
+                        name: 'JavaScript',
+                        logo: 'https://cdn.worldvectorlogo.com/logos/logo-javascript.svg',
+                        description: 'JavaScript is a high-level, interpreted programming language that conforms to the ECMAScript specification.',
+                        purposes: [
+                            'Create interactive web pages',
+                            'Develop server-side applications with Node.js',
+                            'Build cross-platform mobile apps'
+                        ]
+                    },
+                    {
+                        name: 'Angular',
+                        logo: 'https://angular.io/assets/images/logos/angular/angular.svg',
+                        description: 'Angular is a TypeScript-based open-source web application framework led by the Angular Team at Google.',
+                        purposes: [
+                            'Develop single-page applications',
+                            'Create reusable UI components',
+                            'Implement complex business logic in web apps'
+                        ]
+                    },
+                    {
+                        name: 'React',
+                        logo: 'https://cdn.worldvectorlogo.com/logos/react-2.svg',
+                        description: 'React is a JavaScript library for building user interfaces, developed by Facebook.',
+                        purposes: [
+                            'Build interactive UIs',
+                            'Develop single-page applications',
+                            'Create reusable components'
+                        ]
+                    }
+                ]
+            },
+            {
+                category: 'Backend',
+                items: [
+                    {
+                        name: 'Node.js',
+                        logo: 'https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg',
+                        description: 'Node.js is an open-source, cross-platform JavaScript runtime environment.',
+                        purposes: [
+                            'Build scalable network applications',
+                            'Create web servers and networking tools',
+                            'Develop command line tools'
+                        ]
+                    },
+                    {
+                        name: 'Express.js',
+                        logo: 'https://cdn.worldvectorlogo.com/logos/express-109.svg',
+                        description: 'Express.js is a minimal and flexible Node.js web application framework.',
+                        purposes: [
+                            'Create robust APIs',
+                            'Build web applications',
+                            'Handle HTTP requests and responses'
+                        ]
+                    },
+                    {
+                        name: 'MongoDB',
+                        logo: 'https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg',
+                        description: 'MongoDB is a cross-platform document-oriented database program.',
+                        purposes: [
+                            'Store and manage large volumes of data',
+                            'Handle complex data structures',
+                            'Provide high performance and scalability'
+                        ]
+                    }
+                ]
+            },
+            {
+                category: 'Other',
+                items: [
+                    {
+                        name: 'Git',
+                        logo: 'https://cdn.worldvectorlogo.com/logos/git-icon.svg',
+                        description: 'Git is a distributed version control system for tracking changes in source code during software development.',
+                        purposes: [
+                            'Manage and track code changes',
+                            'Facilitate collaboration among developers',
+                            'Maintain different versions of a project'
+                        ]
+                    },
+                    {
+                        name: 'Docker',
+                        logo: 'https://cdn.worldvectorlogo.com/logos/docker.svg',
+                        description: 'Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers.',
+                        purposes: [
+                            'Create consistent development environments',
+                            'Simplify application deployment',
+                            'Improve scalability and resource utilization'
+                        ]
+                    },
+                    {
+                        name: 'AWS',
+                        logo: 'https://cdn.worldvectorlogo.com/logos/aws-2.svg',
+                        description: 'Amazon Web Services (AWS) is a comprehensive, evolving cloud computing platform provided by Amazon.',
+                        purposes: [
+                            'Host and scale web applications',
+                            'Store and process big data',
+                            'Provide a wide range of cloud services'
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        ctrl.projects = [
+            {
+                name: 'Skylinemart-ecommerce',
+                image: 'https://i.pinimg.com/736x/62/d4/79/62d47950534f8f40eee92dde6f3dfb95.jpg',
+                shortDescription: 'This project is a feature-rich e-commerce platform designed to elevate convenience and accessibility. Combining the best of online shopping and booking systems, it serves as a one-stop solution for users seeking seamless experiences.',
+                technologies: ['HTML5','CSS3','java script','Bootstrap','Tailwind','Angularjs'],
+                liveDemo: 'https://dhanushkavin95.github.io/skylinemart/',
+                github: 'https://github.com/dhanushkavin95/skylinemart'
+            },
+            {
+                name: 'Financehub-financial calculators',
+                image: 'https://i.pinimg.com/474x/3e/3a/ce/3e3ace0f977118cdaabb5733f0cda56f.jpg',
+                shortDescription: 'Your one-stop destination for powerful financial tools! Explore a variety of calculators to manage loans, plan budgets, track savings, and make informed investment decisions. Simplify your finances with accurate, easy-to-use tools designed for everyday use',
+                technologies: ['HTML5','CSS3','Java script','Bootstrap','Tailwind','Angular JS','google links'],
+                liveDemo: 'https://dhanushkavin95.github.io/financehub/',
+                github: 'https://github.com/dhanushkavin95/financehub'
+            },
+            {
+                name: 'DK CalcX',
+                image: 'https://i.pinimg.com/474x/84/42/14/84421486bcccc4a2098c7111d0b14184.jpg',
+                shortDescription: 'A feature-rich, responsive calculator website designed by Dhanush Kavin, offering basic, scientific, financial, and conversion tools. Whether you re solving equations, managing finances, or converting units, DK CalcX provides a sleek, user-friendly interface to handle all your calculation needs effortlessly.',
+                technologies: ['JavaScript', 'HTML5', 'CSS3', 'Bootstrap','Tail

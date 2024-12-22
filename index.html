@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="portfolioApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhanush Kavin - Web Developer Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <style>
+        :root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f8f9fa;
+    --text-color: #333;
+    --card-background: #ffffff;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+    cursor: none;
+}
+
+.cursor {
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--primary-color);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    transition: 0.1s;
+    z-index: 9999;
+}
+
+.cursor-follower {
+    width: 8px;
+    height: 8px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    transition: 0.15s;
+    z-index: 9999;
+}
+
+.hero {
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+#bgVideo {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    min-width: 150%;
+    min-height: 20%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -99;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+}
+
+.navbar {
+    transition: all var(--transition-speed) ease;
+    padding: 1rem 0;
+}
+
+.navbar-scrolled {
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-link {
+    position: relative;
+    font-weight: 500;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--primary-color);
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: all var(--transition-speed) ease-in-out;
+}
+
+.nav-link:hover::after {
+    visibility: visible;
+    transform: scaleX(1);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: all var(--transition-speed) ease;
+    font-weight: 600;
+    padding: 0.5rem 1.5rem;
+}
+
+.btn-primary:hover {
+    background-color: darken(var(--primary-color), 10%);
+    border-color: darken(var(--primary-color), 10%);
+    transform: translateY(-2px);
+}
+
+.card {
+    background-color: var(--card-background);
+    border: none;
+    border-radius: 8px;
+    transition: all var(--transition-speed) ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--card-shadow);
+}
+
+.project-card {
+    cursor: pointer;
+}
+
+.social-icons a {
+    font-size: 1.5rem;
+    transition: all var(--transition-speed) ease;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.social-icons a:hover {
+    color: #ffffff;
+    transform: translateY(-3px);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Animated background for hero section */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.hero-image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.hero-image {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translatey(0px); }
+    50% { transform: translatey(-20px); }
+    100% { transform: translatey(0px); }
+}
+
+/* Pulsing animation for CTA button */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(52, 152, 219, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
+}
+
+.animated-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.animated-button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: all 0.6s;
+}
+
+.animated-button:hover:before {
+    left: 100%;
+}
+
+/* Hover effect for project cards */
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(52, 152, 219, 0.1);
+    transform: translateY(100%);
+    transition: transform var(--transition-speed) ease;
+}
+
+.project-card:hover::before {
+    transform: translateY(0);
+}
+
+/* Skill icon styles */
+.skill-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: transform var(--transition-speed) ease;
+}
+
+.skill-item {
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color var(--transition-speed) ease;
+}
+
+.skill-item:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+.skill-item:hover .skill-logo {
+    transform: scale(1.1);
+}
+
+/* Language details section */
+.language-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+#language-details {
+    transition: all var(--transition-speed) ease;
+}
+
+/* Glitch effect */
+.glitch {
+    position: relative;
+    color: #fff;
+    font-size: 4em;
+    letter-spacing: 0.5em;
+    animation: glitch 0.5s infinite;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 #00fff9, 2px 2px #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% {
+        clip: rect(31px, 9999px, 94px, 0);
+        transform: skew(0.85deg);
+    }
+    5% {
+        clip: rect(70px, 9999px, 71px, 0);
+        transform: skew(0.17deg);
+    }
+    /* ... (add more keyframes as desired) ... */
+    100% {
+        clip: rect(91px, 9999px, 100px, 0);
+        transform: skew(0.6deg);
+    }
+}
+
+@keyframes glitch-anim2 {
+    0% {
+        clip: rect(65px, 9999px, 119px, 0);
+        transform: skew(0.13deg);
+    }
+    5% {
+        clip: rect(62px, 9999px, 37px, 0);
+        transform: skew(0.8deg);
+    }
+    /* ... (add more keyframes as desired) ... */
+    100% {
+        clip: rect(40px, 9999px, 23px, 0);
+        transform: skew(0.02deg);
+    }
+}
+
+/* Typewriter effect */
+.typewriter {
+    overflow: hidden;
+    border-right: 0.15em solid var(--primary-color);
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 0.15em;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--primary-color) }
+}
+
+/* Scroll down animation */
+.scroll-down {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mouse {
+    width: 30px;
+    height: 50px;
+    border: 2px solid #fff;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 10px;
+}
+
+.wheel {
+    width: 4px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 2px;
+    animation: scroll 1.5s infinite;
+}
+
+@keyframes scroll {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+    100% { transform: translateY(0); }
+}
+
+/* Parallax effect */
+.parallax-container {
+    position: relative;
+    overflow: hidden;
+    height: 400px;
+}
+
+.parallax-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background-color: var(--primary-color);
+}
+
+.timeline li {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.timeline li::before {
+    content: '';
+    position: absolute;
+    left: -36px;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+}
+
+/* Hover effect */
+.hover-effect {
+    transition: all 0.3s ease;
+}
+
+.hover-effect:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Contact form animation */
+.contact-form .form-control {
+    transition: all 0.3s ease;
+}
+
+.contact-form .form-control:focus {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Swiper styles */
+.swiper-container {
+    padding: 20px 0;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: var(--primary-color);
+}
+
+.swiper-pagination-bullet-active {
+    background-color: var(--primary-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero {
+        padding-top: 60px;
+    }
+
+    .card {
+        margin-bottom: 1rem;
+    }
+
+    .skill-logo {
+        width: 32px;
+        height: 32px;
+    }
+
+    .language-logo {
+        width: 64px;
+        height: 64px;
+    }
+
+    .glitch {
+        font-size: 2em;
+    }
+}
+
+/* 3D Flip Card Effect */
+.flip-card {
+    perspective: 1000px;
+}
+
+.flip-card-inner {
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+}
+
+/* Neon Text Effect */
+.neon-text {
+    color: #fff;
+    text-shadow:
+        0 0 5px #fff,
+        0 0 10px #fff,
+        0 0 20px #fff,
+        0 0 40px var(--primary-color),
+        0 0 80px var(--primary-color),
+        0 0 90px var(--primary-color),
+        0 0 100px var(--primary-color);
+}
+
+/* Gradient Text Effect */
+.gradient-text {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+/* Animated Background */
+.animated-bg {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Particle Effect */
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #b61924;
+    background-image: url("");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+/* Reveal on Scroll */
+.reveal {
+    position: relative;
+    opacity: 0;
+    transition: all 0.8s ease-in-out;
+}
+
+.reveal.active {
+    opacity: 1;
+}
+
+.reveal.fade-bottom {
+    transform: translateY(20px);
+}
+
+.reveal.fade-bottom.active {
+    transform: translateY(0);
+}
+
+/* Morphing SVG */
+.morph-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.morph-path {
+    transition: d 0.5s ease;
+}
+
+/* Elastic Animation */
+@keyframes elastic {
+    0% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(0.9);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    75% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.elastic {
+    animation: elastic 1s ease;
+}
+
+/* Shimmering Effect */
+.shimmer {
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Frosted Glass Effect */
+.frosted-glass {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Neumorphism Effect */
+.neumorphism {
+    background: var(--background-color);
+    border-radius: 50px;
+    box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+}
+
+/* Text Scramble Effect */
+.text-scramble .text {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.text-scramble .text.visible {
+    opacity: 1;
+}
+
+/* Kinetic Typography */
+.kinetic-text {
+    position: relative;
+    display: inline-block;
+}
+
+.kinetic-text span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 50% 50%;
+}
+
+/* Liquid Button Effect */
+.liquid-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.liquid-button::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+
+    </style>
+</head>
+<body ng-controller="PortfolioController as ctrl">
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <header class="fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item" ng-repeat="item in ctrl.navItems">
+                            <a class="nav-link" href="#{{item.link}}" ng-class="{'active': ctrl.isActive(item.link)}">{{item.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero d-flex align-items-center">
+            <video autoplay muted loop id="bgVideo">
+                <source src="https://cdn.pixabay.com/video/2024/03/31/206294_tiny.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="container hero-content">
+                <div class="row">
+                    <div class="col-lg-6" data-aos="fade-right">
+                        <h1 class="display-4 fw-bold mb-4 glitch" data-text="Welcome to My Portfolio">Welcome to My Page buddy</h1>
+                        <p class="lead mb-4 typewriter">I'm Dhanush Kavin, a Full Stack Web Developer passionate about creating amazing digital experiences.</p>
+                        <a href="#projects" class="btn btn-primary btn-lg animated-button">View My Work</a>
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <div class="hero-image-container">
+                            <img src="https://i.pinimg.com/736x/68/10/b9/6810b93cad45432e58ae1f8ad3762641.jpg" alt="Hero Image" class="img-fluid rounded-circle hero-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-down">
+                <a href="#about" class="mouse-wrapper">
+                    <span class="mouse">
+                        <span class="wheel"></span>
+                    </span>
+                </a>
+            </div>
+        </section>
+
+        <section id="about" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5" data-aos="fade-up">About Me</h2>
+                <div class="row">
+                    <div class="col-lg-6" data-aos="fade-right">
+                        <div class="parallax-container">
+                            <img src="https://i.pinimg.com/736x/54/80/62/548062cfdcef7e5bb8742754f4440173.jpg" alt="About Image" class="img-fluid rounded parallax-image">
+                        </div>
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <p class="lead">
+                            I'm a passionate full-stack web developer with expertise in both frontend and backend technologies.
+                            My goal is to create robust, user-friendly web applications that make a positive impact.
+                        </p>
+                        <p class="lead">
+                            When I'm not coding, you can find me exploring new technologies, contributing to open-source projects,
+                            or sharing my knowledge through blog posts and tutorials.
+                        </p>
+                        <a href="Dhanush kavin G.pdf" download class="btn btn-primary mt-3 hover-effect animated-button">
+                            <i class="fas fa-download me-2"></i>Download CV
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-5" data-aos="fade-up">My Skills</h2>
+                <div class="row">
+                    <div class="col-md-4 mb-4" ng-repeat="skill in ctrl.skills" data-aos="flip-left" data-aos-delay="{{$index * 100}}">
+                        <div class="card h-100 shadow-sm skill-card">
+                            <div class="card-body">
+                                <h3 class="card-title">{{skill.category}}</h3>
+                                <ul class="list-unstyled">
+                                    <li ng-repeat="item in skill.items" class="mb-3">
+                                        <div class="d-flex align-items-center skill-item" ng-click="ctrl.showLanguageDetails(item)">
+                                            <img ng-src="{{item.logo}}" alt="{{item.name}} logo" class="skill-logo me-3">
+                                            <span>{{item.name}}</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="language-details" class="py-5" ng-show="ctrl.isLanguageDetailsVisible">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm" data-aos="zoom-in">
+                            <div class="card-body">
+                                <button type="button" class="btn-close float-end" aria-label="Close" ng-click="ctrl.hideLanguageDetails()"></button>
+                                <h3 class="card-title">{{ctrl.selectedLanguage.name}}</h3>
+                                <img ng-src="{{ctrl.selectedLanguage.logo}}" alt="{{ctrl.selectedLanguage.name}} logo" class="language-logo mb-3">
+                                <p class="card-text">{{ctrl.selectedLanguage.description}}</p>
+                                <h4>Purpose in Web Development:</h4>
+                                <ul>
+                                    <li ng-repeat="purpose in ctrl.selectedLanguage.purposes">{{purpose}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5" data-aos="fade-up">My Projects</h2>
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" ng-repeat="project in ctrl.projects">
+                            <div class="card h-100 shadow-sm project-card">
+                                <img ng-src="{{project.image}}" class="card-img-top" alt="{{project.name}}">
+                                <div class="card-body">
+                                    <h3 class="card-title">{{project.name}}</h3>
+                                    <p class="card-text">{{project.shortDescription}}</p>
+                                </div>
+                                <div class="card-footer bg-transparent border-top-0">
+                                    <a href="{{project.liveDemo}}" target="_blank" class="btn btn-outline-primary btn-sm me-2 hover-effect animated-button">
+                                        <i class="fas fa-external-link-alt me-1"></i>Live Demo
+                                    </a>
+                                    <a href="{{project.github}}" target="_blank" class="btn btn-outline-secondary btn-sm hover-effect animated-button">
+                                        <i class="fab fa-github me-1"></i>GitHub
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-5 experience-bg">
+            <div class="container">
+                <h2 class="text-center mb-5" data-aos="fade-up">Experience</h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm" data-aos="fade-up">
+                            <div class="card-body">
+                                <h3 class="card-title">Appin Technology</h3>
+                                <h6 class="card-subtitle mb-2 text-muted">Internship - 6 months</h6>
+                                <p class="card-text">
+                                    Gained hands-on experience in full-stack development, working on various projects and improving my skills in both frontend and backend technologies.
+                                    Collaborated with senior developers to implement new features and optimize existing codebase.
+                                </p>
+                                <ul>
+                                    <li>Developed responsive web applications using HTML5, CSS3, and JavaScript</li>
+                                    <li>Implemented RESTful APIs using Node.js and Express</li>
+                                    <li>Worked with databases such as MongoDB and MySQL</li>
+                                    <li>Participated in code reviews and agile development processes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="certificates" class="py-5 certificate-bg">
+            <div class="container">
+                <h2 class="text-center mb-5" data-aos="fade-up">Certificates</h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm" data-aos="fade-up">
+                            <div class="card-body">
+                                <h3 class="card-title">Java Full Stack Developer</h3>
+                                <h6 class="card-subtitle mb-2 text-muted">Issued by Appin Technology</h6>
+                                <p class="card-text">
+                                    Completed comprehensive training in Java full-stack development, covering both frontend and backend technologies.
+                                    The course included hands-on projects and in-depth study of Java, Spring Framework, HTML, CSS, JavaScript, and database management.
+                                </p>
+                                <a href="path/to/your/certificate.pdf" download class="btn btn-primary mt-3">
+                                    <i class="fas fa-download me-2"></i>Download Certificate
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="contact" class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-5" data-aos="fade-up">Contact Me</h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <form ng-submit="ctrl.submitForm()" name="contactForm" novalidate class="contact-form">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" ng-model="ctrl.formData.name" required>
+                                <div ng-show="contactForm.name.$dirty && contactForm.name.$invalid" class="text-danger">
+                                    <small ng-show="contactForm.name.$error.required">Name is required.</small>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" ng-model="ctrl.formData.email" required>
+                                <div ng-show="contactForm.email.$dirty && contactForm.email.$invalid" class="text-danger">
+                                    <small ng-show="contactForm.email.$error.required">Email is required.</small>
+                                    <small ng-show="contactForm.email.$error.email">Invalid email format.</small>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="5" ng-model="ctrl.formData.message" required></textarea>
+                                <div ng-show="contactForm.message.$dirty && contactForm.message.$invalid" class="text-danger">
+                                    <small ng-show="contactForm.message.$error.required">Message is required.</small>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary hover-effect animated-button" ng-disabled="contactForm.$invalid">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p>&copy; 2023 Dhanush Kavin. All rights reserved.</p>
+            <div class="social-icons mt-3">
+                <a href="#" class="text-white me-3"><i class="fab fa-github"></i></a>
+                <a href="#" class="text-white me-3"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script>
+        angular.module('portfolioApp', [])
+.controller('PortfolioController', function($scope, $timeout, $window) {
+    var ctrl = this;
+
+    ctrl.navItems = [
+        { name: 'Home', link: 'home' },
+        { name: 'About', link: 'about' },
+        { name: 'Skills', link: 'skills' },
+        { name: 'Projects', link: 'projects' },
+        { name: 'Experience', link: 'experience' },
+        { name: 'Certificates', link: 'certificates' },
+        { name: 'Contact', link: 'contact' }
+    ];
+
+    ctrl.skills = [
+        {
+            category: 'Frontend',
+            items: [
+                {
+                    name: 'HTML5',
+                    logo: 'https://cdn.worldvectorlogo.com/logos/html-1.svg',
+                    description: 'HTML5 is the latest version of Hypertext Markup Language, the code that describes web pages.',
+                    purposes: [
+                        'Structure content on the web',
+                        'Support multimedia without plugins',
+                        'Provide better semantics for document structure'
+                    ]
+                },
+                {
+                    name: 'CSS3',
+                    logo: 'https://cdn.worldvectorlogo.com/logos/css-3.svg',
+                    description: 'CSS3 is the latest evolution of the Cascading Style Sheets language.',
+                    purposes: [
+                        'Style and layout web pages',
+                        'Create responsive designs',
+                        'Implement animations and transitions'
+                    ]
+                },
+                {
+                    name: 'JavaScript',
+                    logo: 'https://cdn.worldvectorlogo.com/logos/logo-javascript.svg',
+                    description: 'JavaScript is a high-level, interpreted programming language that conforms to the ECMAScript specification.',
+                    purposes: [
+                        'Create interactive web pages',
+                        'Develop server-side applications with Node.js',
+                        'Build cross-platform mobile apps'
+                    ]
+                },
+                {
+                    name: 'Angular',
+                    logo: 'https://angular.io/assets/images/logos/angular/angular.svg',
+                    description: 'Angular is a TypeScript-based open-source web application framework led by the Angular Team at Google.',
+                    purposes: [
+                        'Develop single-page applications',
+                        'Create reusable UI components',
+                        'Implement complex business logic in web apps'
+                    ]
+                },
+                {
+                    name: 'React',
+                    logo: 'https://cdn.worldvectorlogo.com/logos/react-2.svg',
+                    description: 'React is a JavaScript library for building user interfaces, developed by Facebook.',
+                    purposes: [
+                        'Build interactive UIs',
+                        'Develop single-page applications',
+                        'Create reusable components'
+                    ]
+                }
+            ]
+        },
+        {
+            category: 'Backend',
+            items: [
+                {
+                    name: 'Node.js',
+                    logo: 'https://cdn.worldvectorlogo.com/logos/nodejs-icon.svg',
+                    description: 'Node.js is an open-source, cross-platform JavaScript runtime environment.',
+                    purposes: [
+                        'Build scalable network applications',
+                        'Create web servers and networking tools',
+                        'Develop command line tools'
+                    ]
+                },
+                {
+                    name: 'Express.js',
+                    logo: 'https://cdn.worldvectorlogo.com/logos/express-109.svg',
+                    description: 'Express.js is a minimal and flexible Node.js web application framework.',
+                    purposes: [
+                        'Create robust APIs',
+                        'Build web applications',
+                        'Handle HTTP requests and responses'
+                    ]
+                },
+                {
+                    name: 'MongoDB',
+                    logo: 'https://cdn.worldvectorlogo.com/logos/mongodb-icon-1.svg',
+                    description: 'MongoDB is a cross-platform document-oriented database program.',
+                    purposes: [
+                        'Store and manage large volumes of data',
+                        'Handle complex data structures',
+                        'Provide high performance and scalability'
+                    ]
+                }
+            ]
+        },
+        {
+            category: 'Other',
+            items: [
+                {
+                    name: 'Git',
+                    logo: 'https://cdn.worldvectorlogo.com/logos/git-icon.svg',
+                    description: 'Git is a distributed version control system for tracking changes in source code during software development.',
+                    purposes: [
+                        'Manage and track code changes',
+                        'Facilitate collaboration among developers',
+                        'Maintain different versions of a project'
+                    ]
+                },
+                {
+                    name: 'Docker',
+                    logo: 'https://cdn.worldvectorlogo.com/logos/docker.svg',
+                    description: 'Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers.',
+                    purposes: [
+                        'Create consistent development environments',
+                        'Simplify application deployment',
+                        'Improve scalability and resource utilization'
+                    ]
+                },
+                {
+                    name: 'AWS',
+                    logo: 'https://cdn.worldvectorlogo.com/logos/aws-2.svg',
+                    description: 'Amazon Web Services (AWS) is a comprehensive, evolving cloud computing platform provided by Amazon.',
+                    purposes: [
+                        'Host and scale web applications',
+                        'Store and process big data',
+                        'Provide a wide range of cloud services'
+                    ]
+                }
+            ]
+        }
+    ];
+
+    ctrl.projects = [
+        {
+            name: 'Skylinemart-ecommerce',
+            image: 'https://i.pinimg.com/736x/62/d4/79/62d47950534f8f40eee92dde6f3dfb95.jpg',
+            shortDescription: 'This project is a feature-rich e-commerce platform designed to elevate convenience and accessibility. Combining the best of online shopping and booking systems, it serves as a one-stop solution for users seeking seamless experiences.',
+            technologies: ['HTML5','CSS3','java script','Bootstrap','Tailwind','Angularjs'],
+            liveDemo: 'https://dhanushkavin95.github.io/skylinemart/',
+            github: 'https://github.com/dhanushkavin95/skylinemart'
+        },
+        {
+            name: 'Financehub-financial calculators',
+            image: 'https://i.pinimg.com/474x/3e/3a/ce/3e3ace0f977118cdaabb5733f0cda56f.jpg',
+            shortDescription: 'Your one-stop destination for powerful financial tools! Explore a variety of calculators to manage loans, plan budgets, track savings, and make informed investment decisions. Simplify your finances with accurate, easy-to-use tools designed for everyday use',
+            technologies: ['HTML5','CSS3','Java script','Bootstrap','Tailwind','Angular JS','google links'],
+            liveDemo: 'https://dhanushkavin95.github.io/financehub/',
+            github: 'https://github.com/dhanushkavin95/financehub'
+        },
+        {
+            name: 'DK CalcX',
+            image: 'https://i.pinimg.com/474x/84/42/14/84421486bcccc4a2098c7111d0b14184.jpg',
+            shortDescription: 'A feature-rich, responsive calculator website designed by Dhanush Kavin, offering basic, scientific, financial, and conversion tools. Whether you re solving equations, managing finances, or converting units, DK CalcX provides a sleek, user-friendly interface to handle all your calculation needs effortlessly.',
+            technologies: ['JavaScript', 'HTML5', 'CSS3', 'Bootstrap','Tailwind'],
+            liveDemo: 'https://dhanushkavin95.github.io/DK-CalcX/',
+            github: 'https://github.com/dhanushkavin95/DK-CalcX'
+        },
+        {
+            name: 'NextGen Depot',
+            image: 'https://i.pinimg.com/736x/b9/f6/54/b9f654329c2d53ee7e34dc55ab267ea3.jpg',
+            shortDescription: 'The Digital Product Warehouse is an online platform for managing and distributing a wide variety of digital products. It offers seamless access, efficient organization, and secure delivery for both customers and administrators',
+            technologies: ['HTML5', 'CSS3', 'JavaScript', 'Angular','Bootstrap','Tailwind'],
+            liveDemo: 'https://dhanushkavin95.github.io/NextGenDepot/#',
+            github: 'https://github.com/dhanushkavin95/NextGenDepot'
+        }
+    ];
+
+    ctrl.selectedLanguage = null;
+    ctrl.isLanguageDetailsVisible = false;
+
+    ctrl.showLanguageDetails = function(language) {
+        ctrl.selectedLanguage = language;
+        ctrl.isLanguageDetailsVisible = true;
+        $timeout(function() {
+            document.getElementById('language-details').scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    };
+
+    ctrl.hideLanguageDetails = function() {
+        ctrl.isLanguageDetailsVisible = false;
+        ctrl.selectedLanguage = null;
+    };
+
+    ctrl.isActive = function(viewLocation) {
+        var active = (viewLocation === $location.path());
+        return active;
+    };
+
+    ctrl.formData = {};
+
+    ctrl.submitForm = function() {
+        // Here you would typically send the form data to a server
+        console.log('Form submitted:', ctrl.formData);
+        // Reset form after submission
+        ctrl.formData = {};
+        $scope.contactForm.$setPristine();
+        $scope.contactForm.$setUntouched();
+        alert('Thank you for your message! I will get back to you soon.');
+    };
+
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 200
+    });
+
+    // Initialize Swiper
+    var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+            },
+            768: {
+                slidesPerView: 3,
+            },
+        }
+    });
+
+    // Navbar scroll effect
+    angular.element($window).on('scroll', function() {
+        var navbar = document.querySelector('.navbar');
+        if ($window.pageYOffset > 50) {
+            navbar.classList.add('navbar-scrolled');
+        } else {
+            navbar.classList.remove('navbar-scrolled');
+        }
+    });
+
+    // Custom cursor
+    var cursor = document.querySelector('.cursor');
+    var cursorFollower = document.querySelector('.cursor-follower');
+
+    document.addEventListener('mousemove', function(e) {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        cursorFollower.style.left = e.clientX + 'px';
+        cursorFollower.style.top = e.clientY + 'px';
+    });
+
+    // Parallax effect
+    angular.element($window).on('scroll', function() {
+        var scrolled = $window.pageYOffset;
+        var parallaxImage = document.querySelector('.parallax-image');
+        if (parallaxImage) {
+            parallaxImage.style.transform = 'translateY(' + (scrolled * 0.3) + 'px)';
+        }
+    });
+
+    // Typewriter effect
+    function typeWriter(text, i, fnCallback) {
+        if (i < text.length) {
+            document.querySelector(".typewriter").innerHTML = text.substring(0, i+1) + '<span aria-hidden="true"></span>';
+            setTimeout(function() {
+                typeWriter(text, i + 1, fnCallback)
+            }, 100);
+        } else if (typeof fnCallback == 'function') {
+            setTimeout(fnCallback, 700);
+        }
+    }
+
+    // Start the typewriter effect when the page loads
+    $timeout(function() {
+        typeWriter("I'm Dhanush Kavin, a Full Stack Web Developer passionate about creating amazing digital experiences.", 0);
+    }, 1000);
+});
+    </script>
+</body>
+</html>
